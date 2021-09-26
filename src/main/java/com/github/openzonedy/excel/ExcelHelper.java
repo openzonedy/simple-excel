@@ -3,7 +3,7 @@ package com.github.openzonedy.excel;
 import java.io.InputStream;
 import java.util.Map;
 
-public class ExcelUtil {
+public class ExcelHelper {
     /**
      * 可以多参考Apache POI  util包 和hutool的一些写法
      *
@@ -23,4 +23,6 @@ public class ExcelUtil {
         return new ExcelWriter(columnMapping);
     }
 
+    public static void getReader() {
+    }
 }

@@ -73,6 +73,10 @@ public class ExcelReader extends ExcelBase {
         this.indexMapping = dataMap;
     }
 
+    public Row readRow(int index) {
+        return sheet.getRow(index);
+    }
+
     public Map<String, Object> readRow(Row row) {
         Map<String, Object> dataMap = new LinkedHashMap<>();
         Iterator<Cell> iterator = row.cellIterator();

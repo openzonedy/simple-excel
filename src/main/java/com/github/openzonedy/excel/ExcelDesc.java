@@ -13,7 +13,7 @@ public @interface ExcelDesc {
 
     String valueGetter() default "";
 
-    String timePattern() default "yyyy-MM-dd HH:mm:ss";
+    String timePattern() default "";
 
     String booleanPattern() default "TRUE/FALSE";
 }

@@ -3,10 +3,7 @@ package com.github.openzonedy.excel.poi;
 import com.github.openzonedy.excel.CellStyleHolder;
 import org.apache.poi.ss.usermodel.*;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.time.temporal.TemporalAccessor;
 import java.util.Calendar;
 import java.util.Date;
@@ -92,7 +89,10 @@ public class CellUtil {
         if (null == value) {
             cell.setCellValue("");
         } else if (value instanceof Date) {
-            cell.setCellValue((Date) value);
+            ((Date)value).toInstant();
+            LocalDateTime time = LocalDateTime.ofInstant(((Date) value).toInstant(), ZoneId.systemDefault());
+            String formatValue = TimeFormatterPattern.yyyyMMddHHmmss.formatter.format(time);
+            cell.setCellValue(formatValue);
         } else if (value instanceof TemporalAccessor) {
             String formatValue = "";
             if (value instanceof Instant) {

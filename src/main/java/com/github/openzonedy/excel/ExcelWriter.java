@@ -65,7 +65,7 @@ public class ExcelWriter extends ExcelBase {
 //        CellUtil.setCellValue(cell, "xx", cellStyleHolder);
     }
 
-    public void writeLine(List<Object> beanList, Class<?> clazz) {
+    public void writeLine(List<?> beanList, Class<?> clazz) {
         List<Map<String, Object>> mapList = ReflectUtil.beanToMap(beanList, columnMapping, clazz);
         writeLine(mapList);
     }
