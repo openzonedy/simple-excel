@@ -8,8 +8,12 @@ import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ExcelWriter extends ExcelBase {
@@ -149,7 +153,7 @@ public class ExcelWriter extends ExcelBase {
         }
     }
 
-    /*
+
     public void writeToBrowser(HttpServletResponse response, String fileName) throws IOException {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
@@ -159,7 +163,7 @@ public class ExcelWriter extends ExcelBase {
         out.flush();
         out.close();
     }
-     */
+
 
     public void writeToOutputStream(OutputStream out) throws IOException {
         workbook.write(out);
