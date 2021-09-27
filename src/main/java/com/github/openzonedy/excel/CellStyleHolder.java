@@ -64,6 +64,7 @@ public class CellStyleHolder {
         Font font = workbook.createFont();
         font.setFontName(fontName);
         font.setBold(bold);
+        font.setColor(Font.COLOR_NORMAL); //IndexedColors可以尝试一下，没有验证
         font.setFontHeightInPoints((short) fontSize);
         return font;
     }

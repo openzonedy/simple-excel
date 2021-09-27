@@ -1,5 +1,6 @@
 package com.github.openzonedy.excel;
 
+import com.github.openzonedy.excel.base.ExcelStructure;
 import com.github.openzonedy.excel.converter.EnumConverter;
 import com.github.openzonedy.excel.converter.SimpleExcelConverter;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -17,6 +18,7 @@ public abstract class ExcelBase {
      * column -> alias  属性->名称
      */
     protected Map<String, String> columnMapping = new ConcurrentHashMap<>();
+    protected Map<String, ExcelStructure> structureMapping = new ConcurrentHashMap<>();
     protected Map<Class<?>, SimpleExcelConverter> converterMap = new ConcurrentHashMap<>();
 
     {

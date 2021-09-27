@@ -1,9 +1,12 @@
 package com.github.openzonedy.excel.base;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+
 public class ExcelStructure {
     private String column;
     private String columnName;
     private Class<?> clazz;
+    private CellStyle cellStyle;
     private String[] options;
 
     public ExcelStructure(String column, String columnName) {
@@ -54,5 +57,13 @@ public class ExcelStructure {
 
     public void setOptions(String[] options) {
         this.options = options;
+    }
+
+    public CellStyle getCellStyle() {
+        return cellStyle;
+    }
+
+    public void setCellStyle(CellStyle cellStyle) {
+        this.cellStyle = cellStyle;
     }
 }
