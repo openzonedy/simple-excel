@@ -1,5 +1,11 @@
 package com.github.openzonedy.excel;
 
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileOutputStream;
@@ -73,5 +79,15 @@ public class WriteTest {
         writer.autoSizeColumnAll();
         writer.writeToOutputStream(new FileOutputStream("测试数据.xlsx"));
 
+    }
+
+    @Test
+    public void write2() throws Exception {
+        ExcelWriter writer = ExcelHelper.getWriter(columnMapping);
+        CellStyleHolder cellStyleHolder = writer.getCellStyleHolder();
+        XSSFCellStyle headCellStyle = (XSSFCellStyle)cellStyleHolder.getHeadCellStyle();
+        XSSFColor xssfColor = new XSSFColor(new DefaultIndexedColorMap());
+        xssfColor.setARGBHex("D3D3D3");
+        headCellStyle.setFillForegroundColor(xssfColor);
     }
 }

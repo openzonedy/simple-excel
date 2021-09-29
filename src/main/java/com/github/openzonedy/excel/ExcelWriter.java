@@ -172,4 +172,11 @@ public class ExcelWriter extends ExcelBase {
         out.close();
     }
 
+    public CellStyleHolder getCellStyleHolder() {
+        return cellStyleHolder;
+    }
+
+    public void setCellStyleHolder(CellStyleHolder cellStyleHolder) {
+        this.cellStyleHolder = cellStyleHolder;
+    }
 }
