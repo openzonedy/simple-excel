@@ -1,36 +1,51 @@
 package com.github.openzonedy.excel;
 
+import com.github.openzonedy.excel.annotation.ExcelDesc;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 
 public class ExcelDTO {
+    @ExcelDesc(value = "字节")
     private Byte byteItem;
+    @ExcelDesc(value = "短整型")
     private Short shortItem;
+    @ExcelDesc(value = "整型")
     private Integer intItem;
+    @ExcelDesc(value = "长整型")
     private Long longItem;
+    @ExcelDesc(value = "浮点型")
     private Float floatItem;
+    @ExcelDesc(value = "双精度浮点型")
     private Double doubleItem;
+    @ExcelDesc(value = "字符")
     private Character charItem;
+    @ExcelDesc(value = "字符串")
     private String StringItem;
-    @ExcelDesc(booleanPattern = "是/否")
+    @ExcelDesc(value = "布尔", booleanPattern = "是/否")
     private Boolean boolItem;
-    @ExcelDesc(valueSetter = "enumItemSetter", valueGetter = "enumItemGetter")
-    private ExcelEnum enumItem;
-    @ExcelDesc(timePattern = "yyyy//MM//dd HH:mm:ss")
+    @ExcelDesc(value = "枚举1",valueSetter = "enumItemSetter", valueGetter = "enumItemGetter")
+    private ExcelEnum enumItem1;
+    @ExcelDesc(value = "枚举2", enumValue = "desc")
+    private ExcelEnum enumItem2;
+    @ExcelDesc(value = "日期时间",timePattern = "yyyy//MM//dd HH:mm:ss")
     private LocalDateTime localDateTime;
+    @ExcelDesc(value = "日期")
     private LocalDate localDate;
+    @ExcelDesc(value = "时间")
     private LocalTime localTime;
+    @ExcelDesc(value = "Date时间")
     private Date date;
 
 
     public String enumItemGetter() {
-        return enumItem.getDesc();
+        return enumItem1.getDesc();
     }
 
     public void enumItemSetter(String desc) {
-        this.enumItem = ExcelEnum.descMap.get(desc);
+        this.enumItem1 = ExcelEnum.descMap.get(desc);
     }
 
     public Integer getIntItem() {
@@ -105,12 +120,20 @@ public class ExcelDTO {
         this.boolItem = boolItem;
     }
 
-    public ExcelEnum getEnumItem() {
-        return enumItem;
+    public ExcelEnum getEnumItem1() {
+        return enumItem1;
     }
 
-    public void setEnumItem(ExcelEnum enumItem) {
-        this.enumItem = enumItem;
+    public void setEnumItem1(ExcelEnum enumItem1) {
+        this.enumItem1 = enumItem1;
+    }
+
+    public ExcelEnum getEnumItem2() {
+        return enumItem2;
+    }
+
+    public void setEnumItem2(ExcelEnum enumItem2) {
+        this.enumItem2 = enumItem2;
     }
 
     public LocalDateTime getLocalDateTime() {

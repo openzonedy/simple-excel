@@ -6,30 +6,42 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
 import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFDataValidation;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ExcelWriter extends ExcelBase {
     protected CellStyleHolder cellStyleHolder;
 
-    public ExcelWriter() {
-        workbook = new XSSFWorkbook();
-        sheet = workbook.createSheet("Sheet1");
-        cellStyleHolder = new CellStyleHolder(workbook);
+    public ExcelWriter(boolean xssf) {
+        try {
+            /**
+             * 等同于workbook = new XSSFWorkbook();
+             */
+            workbook = WorkbookFactory.create(xssf);
+            sheet = workbook.createSheet(DEFAULT_SHEET_NAME);
+            cellStyleHolder = new CellStyleHolder(workbook);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
     }
 
-    public ExcelWriter(Map<String, String> columnMapping) {
-        workbook = new XSSFWorkbook();
-        sheet = workbook.createSheet("Sheet1");
-        cellStyleHolder = new CellStyleHolder(workbook);
+    public ExcelWriter(Map<String, String> columnMapping, boolean xssf) {
+        this(xssf);
         this.columnMapping = columnMapping;
+    }
+
+    public ExcelWriter(Class<?> clazz, boolean xssf) {
+        this(xssf);
+        List<Field> fields = ReflectUtil.getAllExcelDeclaredFields(clazz);
+        this.columnMapping = fields.stream().collect(Collectors.toMap(Field::getName, ReflectUtil::getColumnName, (o1, o2) -> o1, LinkedHashMap::new));
     }
 
     public void writeHeadLine(Collection<String> headLine) {

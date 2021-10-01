@@ -29,8 +29,13 @@ public class ReadTest {
     @Test
     public void read1() throws Exception {
         ExcelReader reader = ExcelHelper.getReader(new FileInputStream("测试数据.xlsx"));
-        reader.setColumnMapping(columnMapping);
         List<Map<String, Object>> mapList = reader.readLine(1, 2);
+        System.out.println("");
+    }
+
+    @Test
+    public void read2() throws Exception {
+        ExcelReader reader = ExcelHelper.getReader(new FileInputStream("测试数据BEAN.xlsx"), ExcelDTO.class);
         List<ExcelDTO> dtoList = reader.readLine(1, 2, ExcelDTO.class);
         System.out.println("");
     }

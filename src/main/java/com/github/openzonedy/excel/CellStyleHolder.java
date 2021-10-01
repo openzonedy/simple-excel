@@ -1,6 +1,8 @@
 package com.github.openzonedy.excel;
 
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,7 +42,7 @@ public class CellStyleHolder {
          */
         CellStyle headCellStyle = workbook.createCellStyle();
         headCellStyle.cloneStyleFrom(this.defaultCellStyle);
-        headCellStyle.setFont(createFontStyle(workbook, "微软雅黑", false, 14));
+        headCellStyle.setFont(createFontStyle(workbook, "微软雅黑", false, 12));
         headCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         headCellStyle.setAlignment(HorizontalAlignment.CENTER);
         //设置前景色
@@ -60,13 +62,34 @@ public class CellStyleHolder {
         this.numberCellStyle = numberCellStyle;
     }
 
+    /**
+     * Font -> XSSFFont/HSSFFont
+     *
+     * @param workbook
+     * @param fontName
+     * @param bold
+     * @param fontSize
+     * @return
+     */
     public Font createFontStyle(Workbook workbook, String fontName, boolean bold, int fontSize) {
         Font font = workbook.createFont();
         font.setFontName(fontName);
         font.setBold(bold);
-        font.setColor(Font.COLOR_NORMAL); //IndexedColors可以尝试一下，没有验证
+        font.setColor(Font.COLOR_NORMAL); //IndexedColors亦可、颜色选择更多
         font.setFontHeightInPoints((short) fontSize);
         return font;
+    }
+
+    /**
+     * XSSF 设置RGB颜色
+     * XSSFCellStyle
+     *
+     * @param rgbHex
+     */
+    public XSSFColor createXSSFColor(String rgbHex) {
+        XSSFColor xssfColor = new XSSFColor(new DefaultIndexedColorMap());
+        xssfColor.setARGBHex(rgbHex);
+        return xssfColor;
     }
 
     /**

@@ -8,9 +8,11 @@ public enum TimeFormatterPattern {
     HHmmss("HH:mm:ss"),
     ;
 
+    public final String pattern;
     public final DateTimeFormatter formatter;
 
     TimeFormatterPattern(String pattern) {
+        this.pattern = pattern;
         this.formatter = DateTimeFormatter.ofPattern(pattern);
     }
 }

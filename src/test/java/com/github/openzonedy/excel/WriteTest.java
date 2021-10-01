@@ -45,7 +45,8 @@ public class WriteTest {
         dto1.setCharItem('A');
         dto1.setStringItem("ABC");
         dto1.setBoolItem(true);
-        dto1.setEnumItem(ExcelEnum.XLSX);
+        dto1.setEnumItem1(ExcelEnum.XLSX);
+        dto1.setEnumItem2(ExcelEnum.XLSX);
         dto1.setLocalDateTime(LocalDateTime.now());
         dto1.setLocalDate(LocalDate.now());
         dto1.setLocalTime(LocalTime.now());
@@ -61,7 +62,8 @@ public class WriteTest {
         dto2.setCharItem('B');
         dto2.setStringItem("ICBC");
         dto2.setBoolItem(false);
-        dto2.setEnumItem(ExcelEnum.XLSX);
+        dto2.setEnumItem1(ExcelEnum.XLSX);
+        dto2.setEnumItem2(ExcelEnum.XLSX);
         dto2.setLocalDateTime(LocalDateTime.now());
         dto2.setLocalDate(LocalDate.now());
         dto2.setLocalTime(LocalTime.now());
@@ -72,18 +74,27 @@ public class WriteTest {
 
     @Test
     public void write1() throws Exception {
-        ExcelWriter writer = ExcelHelper.getWriter(columnMapping);
+        ExcelWriter writer = ExcelHelper.getWriter(columnMapping, true);
         writer.writeHeadLine("测试数据");
         writer.writeHeadLine(columnMapping.values());
         writer.writeLine(dataLine, ExcelDTO.class);
         writer.autoSizeColumnAll();
         writer.writeToOutputStream(new FileOutputStream("测试数据.xlsx"));
-
     }
 
     @Test
     public void write2() throws Exception {
-        ExcelWriter writer = ExcelHelper.getWriter(columnMapping);
+        ExcelWriter writer = ExcelHelper.getWriter(ExcelDTO.class, true);
+        writer.writeHeadLine("测试数据");
+        writer.writeHeadLine(writer.columnMapping.values());
+        writer.writeLine(dataLine, ExcelDTO.class);
+        writer.autoSizeColumnAll();
+        writer.writeToOutputStream(new FileOutputStream("测试数据BEAN.xlsx"));
+    }
+
+    @Test
+    public void write3() throws Exception {
+        ExcelWriter writer = ExcelHelper.getWriter(columnMapping, true);
         CellStyleHolder cellStyleHolder = writer.getCellStyleHolder();
         XSSFCellStyle headCellStyle = (XSSFCellStyle)cellStyleHolder.getHeadCellStyle();
         XSSFColor xssfColor = new XSSFColor(new DefaultIndexedColorMap());

@@ -1,6 +1,7 @@
 package com.github.openzonedy.excel.poi;
 
 import com.github.openzonedy.excel.CellStyleHolder;
+import com.github.openzonedy.excel.util.StringUtil;
 import org.apache.poi.ss.usermodel.*;
 
 import java.time.*;
@@ -26,7 +27,7 @@ public class CellUtil {
         Object value;
         switch (cellType) {
             case NUMERIC:
-                value = cell.getNumericCellValue();
+                value = getNumber(cell.toString());
                 break;
             case BOOLEAN:
                 value = cell.getBooleanCellValue();
@@ -44,7 +45,7 @@ public class CellUtil {
                 value = (null == error) ? "" : error.getString();
                 break;
             default:
-                value = cell.getStringCellValue();
+                value = cell.toString();
         }
 
         return value;
@@ -89,7 +90,7 @@ public class CellUtil {
         if (null == value) {
             cell.setCellValue("");
         } else if (value instanceof Date) {
-            ((Date)value).toInstant();
+            ((Date) value).toInstant();
             LocalDateTime time = LocalDateTime.ofInstant(((Date) value).toInstant(), ZoneId.systemDefault());
             String formatValue = TimeFormatterPattern.yyyyMMddHHmmss.formatter.format(time);
             cell.setCellValue(formatValue);
@@ -116,6 +117,47 @@ public class CellUtil {
         } else {
             cell.setCellValue(value.toString());
         }
+    }
+
+
+    public static Object getNumber(String number) {
+        Object value = null;
+        if (StringUtil.hasText(number)) {
+            value = getIntegerLikeNumber(number);
+            if (value == null) {
+                value = getFloatLikeNumber(number);
+            }
+        }
+        return value;
+    }
+
+    /**
+     * 是否时整数类型的数字，Byte,Short,Integer,Long, BigInteger
+     *
+     * @param number
+     * @return
+     */
+    public static Long getIntegerLikeNumber(String number) {
+        String[] split = number.split("\\.");
+        if (split.length == 1) {
+            return Long.parseLong(number);
+        }
+        if (split.length == 2) {
+            if (0L == Long.parseLong(split[1])) {
+                return Long.parseLong(split[0]);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 是否时浮点型数字，Float, Double,BigDemical
+     *
+     * @param number
+     * @return
+     */
+    public static double getFloatLikeNumber(String number) {
+        return Double.parseDouble(number);
     }
 
 }
