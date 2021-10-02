@@ -26,9 +26,9 @@ public class ExcelDTO {
     private String StringItem;
     @ExcelDesc(value = "布尔", booleanPattern = "是/否")
     private Boolean boolItem;
-    @ExcelDesc(value = "枚举1",valueSetter = "enumItemSetter", valueGetter = "enumItemGetter")
+    @ExcelDesc(value = "枚举1",valueSetter = "enumItemSetter1", valueGetter = "enumItemGetter1")
     private ExcelEnum enumItem1;
-    @ExcelDesc(value = "枚举2", enumValue = "desc")
+    @ExcelDesc(value = "枚举2", enumValue = "desc", valueSetter = "enumItemSetter2")
     private ExcelEnum enumItem2;
     @ExcelDesc(value = "日期时间",timePattern = "yyyy//MM//dd HH:mm:ss")
     private LocalDateTime localDateTime;
@@ -40,12 +40,16 @@ public class ExcelDTO {
     private Date date;
 
 
-    public String enumItemGetter() {
+    public String enumItemGetter1() {
         return enumItem1.getDesc();
     }
 
-    public void enumItemSetter(String desc) {
+    public void enumItemSetter1(String desc) {
         this.enumItem1 = ExcelEnum.descMap.get(desc);
+    }
+
+    public void enumItemSetter2(String desc) {
+        this.enumItem2 = ExcelEnum.descMap.get(desc);
     }
 
     public Integer getIntItem() {

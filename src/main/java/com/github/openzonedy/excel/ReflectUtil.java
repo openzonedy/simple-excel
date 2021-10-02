@@ -168,6 +168,11 @@ public class ReflectUtil {
                             continue;
                         }
 
+                        if (field.getType().isEnum()) {
+                            Method valueOf = field.getType().getDeclaredMethod("valueOf", String.class);
+                            Object invoke = valueOf.invoke(bean, value.toString());
+                            field.set(bean, invoke);
+                        }
 
                         if (Number.class.isAssignableFrom(field.getType())) {
                             Object number = null;
@@ -187,9 +192,17 @@ public class ReflectUtil {
                             field.set(bean, number);
                         }
 
+                        if (String.class.equals(field.getType())) {
+                            field.set(bean, value.toString());
+                        }
+
+                        if (Character.class.equals(field.getType())) {
+                            field.set(bean, value.toString().charAt(0));
+                        }
+
                     }
                 }
-                dataList.add((T)bean);
+                dataList.add((T) bean);
             }
             return dataList;
         } catch (Exception e) {
