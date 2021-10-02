@@ -48,6 +48,8 @@ public @interface ExcelDesc {
      */
     String booleanPattern() default "TRUE/FALSE";
 
+    String[] options() default {};
+
     /**
      * 排序
      *

@@ -78,6 +78,9 @@ public class ExcelWriter extends ExcelBase {
 
     public void writeLine(List<Map<String, Object>> mapList) {
         for (Map<String, Object> dataLine : mapList) {
+            if (skipEmptyRow && dataLine.values().stream().allMatch(this::isEmptyColumn)) {
+                continue;
+            }
             Row row = sheet.createRow(nextRowNum.getAndIncrement());
             List<String> columns = new ArrayList<>(columnMapping.keySet());
             for (int i = 0; i < columns.size(); i++) {
@@ -122,13 +125,21 @@ public class ExcelWriter extends ExcelBase {
         this.addDataValidation(new CellRangeAddressList(firstRow, lastRow, col, col), options);
     }
 
-    public void addDataValidation(int firstRow, int lastRow, Map<String, String[]> dataValidationMap) {
-        dataValidationMap.forEach((k, v) -> {
+    public void addDataValidation(int firstRow, int lastRow, Map<String, String[]> optionsMap) {
+        optionsMap.forEach((k, v) -> {
             List<String> columns = new ArrayList<>(columnMapping.keySet());
             int col = columns.indexOf(k);
             this.addDataValidation(new CellRangeAddressList(firstRow, lastRow, col, col), v);
         });
+    }
 
+    public void addDataValidation(int firstRow, int lastRow, Class<?> clazz) {
+        Map<String, String[]> optionsMap = ReflectUtil.getOptionsMap(clazz);
+        optionsMap.forEach((k, v) -> {
+            List<String> columns = new ArrayList<>(columnMapping.keySet());
+            int col = columns.indexOf(k);
+            this.addDataValidation(new CellRangeAddressList(firstRow, lastRow, col, col), v);
+        });
     }
 
     public void merge(int firstRow, int lastRow, int firstCol, int lastCol, CellStyle cellStyle) {

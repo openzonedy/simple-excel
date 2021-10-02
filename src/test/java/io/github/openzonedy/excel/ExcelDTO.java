@@ -24,9 +24,9 @@ public class ExcelDTO {
     private Character charItem;
     @ExcelDesc(value = "字符串")
     private String StringItem;
-    @ExcelDesc(value = "布尔", booleanPattern = "是/否")
+    @ExcelDesc(value = "布尔", booleanPattern = "是/否", options = {"Y", "N"})
     private Boolean boolItem;
-    @ExcelDesc(value = "枚举1",valueSetter = "enumItemSetter1", valueGetter = "enumItemGetter1")
+    @ExcelDesc(value = "枚举1",valueSetter = "enumItemSetter1", valueGetter = "enumItemGetter1", options = {"XLS", "XLSX"})
     private ExcelEnum enumItem1;
     @ExcelDesc(value = "枚举2", enumValue = "desc", valueSetter = "enumItemSetter2")
     private ExcelEnum enumItem2;

@@ -1,8 +1,8 @@
 package io.github.openzonedy.excel;
 
 import io.github.openzonedy.excel.annotation.ExcelDesc;
-import io.github.openzonedy.excel.util.TimeFormatterPattern;
 import io.github.openzonedy.excel.util.StringUtil;
+import io.github.openzonedy.excel.util.TimeFormatterPattern;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -228,6 +228,19 @@ public class ReflectUtil {
             clazz = clazz.getSuperclass();
         }
         return fieldList.stream().sorted(Comparator.comparingInt(o -> o.getAnnotation(ExcelDesc.class).order())).collect(Collectors.toList());
+    }
+
+    public static Map<String, String[]> getOptionsMap(Class<?> clazz) {
+        Map<String, String[]> optionsMap = new HashMap<>();
+        List<Field> fields = getAllExcelDeclaredFields(clazz);
+        for (Field field : fields) {
+            ExcelDesc desc = field.getAnnotation(ExcelDesc.class);
+            String[] options = desc.options();
+            if (options != null && options.length > 0) {
+                optionsMap.put(field.getName(), options);
+            }
+        }
+        return optionsMap;
     }
 
     public static Map<String, String> getReadColumnMapping(Class<?> clazz) {

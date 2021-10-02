@@ -1,8 +1,6 @@
 package io.github.openzonedy.excel;
 
-import org.apache.poi.xssf.usermodel.DefaultIndexedColorMap;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileOutputStream;
@@ -29,6 +27,10 @@ public class WriteTest {
         put("localDate", "日期");
         put("localTime", "时间");
         put("date", "Date时间");
+    }};
+
+    private Map<String, String[]> optionsMap = new HashMap<>() {{
+        put("enumItem1", new String[]{"XLS", "XLSX"});
     }};
 
     {
@@ -94,11 +96,13 @@ public class WriteTest {
     public void write3() throws Exception {
         ExcelWriter writer = ExcelHelper.getWriter(columnMapping, true);
         writer.setSkipEmptyRow(true);
+        writer.setOptionsMap(optionsMap);
         CellStyleHolder cellStyleHolder = writer.getCellStyleHolder();
-        XSSFCellStyle headCellStyle = (XSSFCellStyle)cellStyleHolder.getHeadCellStyle();
+        XSSFCellStyle headCellStyle = (XSSFCellStyle) cellStyleHolder.getHeadCellStyle();
         headCellStyle.setFillForegroundColor(writer.cellStyleHolder.createXSSFColor("D3D3D3"));
         writer.writeHeadLine(columnMapping.values());
         writer.writeLine(dataLine, ExcelDTO.class);
+        writer.addDataValidation(1, 1000, ExcelDTO.class);
         writer.autoSizeColumnAll();
         writer.writeToOutputStream(new FileOutputStream("测试数据-自定义顺序列.xlsx"));
     }
