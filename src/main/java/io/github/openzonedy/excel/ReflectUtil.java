@@ -1,7 +1,7 @@
 package io.github.openzonedy.excel;
 
 import io.github.openzonedy.excel.annotation.ExcelDesc;
-import io.github.openzonedy.excel.poi.TimeFormatterPattern;
+import io.github.openzonedy.excel.util.TimeFormatterPattern;
 import io.github.openzonedy.excel.util.StringUtil;
 
 import java.lang.reflect.Field;
@@ -25,6 +25,7 @@ public class ReflectUtil {
                     Object value = field.get(bean);
                     if (Objects.isNull(value)) {
                         dataMap.put(field.getName(), "");
+                        continue;
                     }
 
                     ExcelDesc excelDesc = field.getAnnotation(ExcelDesc.class);

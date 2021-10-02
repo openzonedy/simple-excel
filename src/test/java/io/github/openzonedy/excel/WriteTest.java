@@ -24,7 +24,7 @@ public class WriteTest {
         put("charItem", "字符");
         put("StringItem", "字符串");
         put("boolItem", "布尔");
-        put("enumItem", "枚举");
+        put("enumItem1", "枚举1");
         put("localDateTime", "日期时间");
         put("localDate", "日期");
         put("localTime", "时间");
@@ -66,6 +66,7 @@ public class WriteTest {
         dto2.setLocalTime(LocalTime.now());
         dto2.setDate(new Date());
         dataLine.add(dto1);
+        dataLine.add(new ExcelDTO());
         dataLine.add(dto2);
     }
 
@@ -92,10 +93,13 @@ public class WriteTest {
     @Test
     public void write3() throws Exception {
         ExcelWriter writer = ExcelHelper.getWriter(columnMapping, true);
+        writer.setSkipEmptyRow(true);
         CellStyleHolder cellStyleHolder = writer.getCellStyleHolder();
         XSSFCellStyle headCellStyle = (XSSFCellStyle)cellStyleHolder.getHeadCellStyle();
-        XSSFColor xssfColor = new XSSFColor(new DefaultIndexedColorMap());
-        xssfColor.setARGBHex("D3D3D3");
-        headCellStyle.setFillForegroundColor(xssfColor);
+        headCellStyle.setFillForegroundColor(writer.cellStyleHolder.createXSSFColor("D3D3D3"));
+        writer.writeHeadLine(columnMapping.values());
+        writer.writeLine(dataLine, ExcelDTO.class);
+        writer.autoSizeColumnAll();
+        writer.writeToOutputStream(new FileOutputStream("测试数据-自定义顺序列.xlsx"));
     }
 }

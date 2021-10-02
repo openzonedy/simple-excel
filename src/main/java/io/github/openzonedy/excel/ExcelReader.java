@@ -1,6 +1,6 @@
 package io.github.openzonedy.excel;
 
-import io.github.openzonedy.excel.poi.CellUtil;
+import io.github.openzonedy.excel.util.CellUtil;
 import io.github.openzonedy.excel.util.StringUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -68,7 +68,9 @@ public class ExcelReader extends ExcelBase {
         int lastRowNum = sheet.getLastRowNum();
         for (int i = readStartIndex; i <= lastRowNum; i++) {
             Map<String, Object> rowMap = readRow(sheet.getRow(i));
-            mapList.add(rowMap);
+            if (Objects.nonNull(rowMap)) {
+                mapList.add(rowMap);
+            }
         }
         return mapList;
     }
@@ -101,13 +103,18 @@ public class ExcelReader extends ExcelBase {
     public Map<String, Object> readRow(Row row) {
         Map<String, Object> dataMap = new LinkedHashMap<>();
         Iterator<Cell> iterator = row.cellIterator();
+        boolean notEmpty = false;
         while (iterator.hasNext()) {
             Cell cell = iterator.next();
             if (this.indexMapping.containsKey(cell.getColumnIndex())) {
-                dataMap.put(this.indexMapping.get(cell.getColumnIndex()), CellUtil.getCellValue(cell, cell.getCellType()));
+                Object cellValue = CellUtil.getCellValue(cell, cell.getCellType());
+                dataMap.put(this.indexMapping.get(cell.getColumnIndex()), cellValue);
+                if (skipEmptyRow && (Objects.nonNull(cellValue) && !StringUtil.isEmpty(cellValue.toString()))) {
+                    notEmpty = true;
+                }
             }
         }
-        return dataMap;
+        return notEmpty ? dataMap : null;
     }
 
 }

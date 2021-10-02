@@ -1,6 +1,6 @@
 package io.github.openzonedy.excel;
 
-import io.github.openzonedy.excel.poi.CellUtil;
+import io.github.openzonedy.excel.util.CellUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
@@ -69,12 +69,6 @@ public class ExcelWriter extends ExcelBase {
         cell.setCellValue(headLine);
         cell.setCellStyle(cellStyleHolder.headCellStyle);
         merge(row.getRowNum(), row.getRowNum(), mergeStartCol, mergeEndCol, cellStyleHolder.headCellStyle);
-    }
-
-    public void writeLine(Object bean) {
-        Row row = sheet.createRow(nextRowNum.getAndIncrement());
-        Cell cell = row.createCell(0);
-//        CellUtil.setCellValue(cell, "xx", cellStyleHolder);
     }
 
     public void writeLine(List<?> beanList, Class<?> clazz) {

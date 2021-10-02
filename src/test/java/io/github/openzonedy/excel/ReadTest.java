@@ -36,6 +36,7 @@ public class ReadTest {
     @Test
     public void read2() throws Exception {
         ExcelReader reader = ExcelHelper.getReader(new FileInputStream("测试数据BEAN.xlsx"), ExcelDTO.class);
+        reader.setSkipEmptyRow(true);
         List<ExcelDTO> dtoList = reader.readLine(1, 2, ExcelDTO.class);
         System.out.println("");
     }
