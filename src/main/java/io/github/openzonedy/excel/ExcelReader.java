@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.function.Function;
 
 public class ExcelReader extends ExcelBase {
     protected Map<Integer, String> indexMapping;
@@ -78,6 +79,25 @@ public class ExcelReader extends ExcelBase {
     public <T> List<T> readLine(int columnMappingRowIndex, int readStartIndex, Class<T> clazz) {
         try {
             List<Map<String, Object>> mapList = readLine(columnMappingRowIndex, readStartIndex);
+            return ReflectUtil.mapToBean(mapList, columnMapping, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
+
+    public <T, R> List<T> readLine(int columnMappingRowIndex, int readStartIndex, Function<String, R> modifer, Class<T> clazz) {
+        try {
+            List<Map<String, Object>> mapList = readLine(columnMappingRowIndex, readStartIndex);
+            for (Map<String, Object> lineMap : mapList) {
+                for (Map.Entry<String, Object> entry : lineMap.entrySet()) {
+                    Object value = entry.getValue();
+                    if (value instanceof String) {
+                        value = modifer.apply((String) value);
+                        lineMap.put(entry.getKey(), value);
+                    }
+                }
+            }
             return ReflectUtil.mapToBean(mapList, columnMapping, clazz);
         } catch (Exception e) {
             e.printStackTrace();
