@@ -11,19 +11,19 @@ public class CellStyleHolder {
     /**
      * 标题样式
      */
-    protected CellStyle headCellStyle;
+    public CellStyle headCellStyle;
     /**
      * 默认样式
      */
-    protected CellStyle defaultCellStyle;
+    public CellStyle defaultCellStyle;
     /**
      * 默认数字样式
      */
-    protected CellStyle numberCellStyle;
+    public CellStyle numberCellStyle;
     /**
      * 自定义的其他样式
      */
-    protected Map<String, CellStyle> customCellStyleMap = new ConcurrentHashMap<>();
+    public Map<String, CellStyle> customCellStyleMap = new ConcurrentHashMap<>();
 
     public CellStyleHolder(Workbook workbook) {
         /**
