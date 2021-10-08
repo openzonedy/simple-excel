@@ -1,5 +1,6 @@
 package io.github.openzonedy.excel;
 
+import io.github.openzonedy.excel.base.CellStyleHolder;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.junit.jupiter.api.Test;
 

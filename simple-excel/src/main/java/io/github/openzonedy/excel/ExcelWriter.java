@@ -1,6 +1,8 @@
 package io.github.openzonedy.excel;
 
+import io.github.openzonedy.excel.base.CellStyleHolder;
 import io.github.openzonedy.excel.util.CellUtil;
+import io.github.openzonedy.excel.util.ReflectUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
@@ -71,9 +73,23 @@ public class ExcelWriter extends ExcelBase {
         merge(row.getRowNum(), row.getRowNum(), mergeStartCol, mergeEndCol, cellStyleHolder.headCellStyle);
     }
 
+    public void writeLine(List<?> beanList, Class<?> clazz, boolean writeAliasAsHead) {
+        if (writeAliasAsHead) {
+            this.writeHeadLine(this.columnMapping.values());
+        }
+        this.writeLine(beanList, clazz);
+    }
+
     public void writeLine(List<?> beanList, Class<?> clazz) {
         List<Map<String, Object>> mapList = ReflectUtil.beanToMap(beanList, columnMapping, clazz);
         writeLine(mapList);
+    }
+
+    public void writeLine(List<Map<String, Object>> mapList, boolean writeAliasAsHead) {
+        if (writeAliasAsHead) {
+            this.writeHeadLine(this.columnMapping.values());
+        }
+        this.writeLine(mapList);
     }
 
     public void writeLine(List<Map<String, Object>> mapList) {
