@@ -13,6 +13,10 @@ public class ExcelHelper {
         return new ExcelReader(inputStream, clazz);
     }
 
+    public static ExcelWriter getWriter(boolean xssf) {
+        return new ExcelWriter(xssf);
+    }
+
     public static ExcelWriter getWriter(Map<String, String> columnMapping, boolean xssf) {
         return new ExcelWriter(columnMapping, xssf);
     }

@@ -20,7 +20,7 @@ public class ExcelDTO {
     private Float floatItem;
     @ExcelDesc(value = "双精度浮点型")
     private Double doubleItem;
-    @ExcelDesc(value = "字符")
+    @ExcelDesc(value = "字符", order = 0)
     private Character charItem;
     @ExcelDesc(value = "字符串")
     private String StringItem;

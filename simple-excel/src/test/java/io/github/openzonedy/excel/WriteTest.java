@@ -106,4 +106,21 @@ public class WriteTest {
         writer.autoSizeColumnAll();
         writer.writeToOutputStream(new FileOutputStream("测试数据-自定义顺序列.xlsx"));
     }
+
+    @Test
+    public void write4() throws Exception {
+        ExcelWriter writer = ExcelHelper.getWriter( true);
+        CellStyleHolder cellStyleHolder = writer.getCellStyleHolder();
+        XSSFCellStyle headCellStyle = (XSSFCellStyle) cellStyleHolder.getHeadCellStyle();
+        headCellStyle.setFillForegroundColor(writer.cellStyleHolder.createXSSFColor("D3D3D3"));
+
+        writer.addColumnMapping("byteItem", "字节", new String[]{"Byte"});
+        writer.addColumnMapping("shortItem", "短整型", new String[]{"1","2", "3"});
+
+        writer.writeHeadLine(writer.getColumnMapping().values());
+        writer.writeLine(dataLine, ExcelDTO.class);
+        writer.addDataValidation(1, 1000);
+        writer.autoSizeColumnAll();
+        writer.writeToOutputStream(new FileOutputStream("测试数据-自定义顺序列-2.xlsx"));
+    }
 }

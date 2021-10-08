@@ -90,7 +90,6 @@ public class ExcelWriter extends ExcelBase {
         }
     }
 
-
     /**
      * 增加下拉列表
      *
@@ -133,13 +132,16 @@ public class ExcelWriter extends ExcelBase {
         });
     }
 
+    public void addDataValidation(int firstRow, int lastRow) {
+        if (this.optionsMap.size() > 0) {
+            this.addDataValidation(firstRow, lastRow, this.optionsMap);
+        }
+    }
+
     public void addDataValidation(int firstRow, int lastRow, Class<?> clazz) {
-        Map<String, String[]> optionsMap = ReflectUtil.getOptionsMap(clazz);
-        optionsMap.forEach((k, v) -> {
-            List<String> columns = new ArrayList<>(columnMapping.keySet());
-            int col = columns.indexOf(k);
-            this.addDataValidation(new CellRangeAddressList(firstRow, lastRow, col, col), v);
-        });
+        this.optionsMap.clear();
+        this.optionsMap.putAll(ReflectUtil.getOptionsMap(clazz));
+        this.addDataValidation(firstRow, lastRow);
     }
 
     public void merge(int firstRow, int lastRow, int firstCol, int lastCol, CellStyle cellStyle) {

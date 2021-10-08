@@ -1,13 +1,12 @@
 package io.github.openzonedy.excel;
 
 import io.github.openzonedy.excel.util.StringUtil;
-import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class ExcelBase {
@@ -18,11 +17,17 @@ public abstract class ExcelBase {
     /**
      * column -> alias  属性->名称
      */
-    protected Map<String, String> columnMapping = new ConcurrentHashMap<>();
-    protected Map<String, String[]> optionsMap = new ConcurrentHashMap<>();
+    protected Map<String, String> columnMapping = new LinkedHashMap<>();
+    protected Map<String, String[]> optionsMap = new LinkedHashMap<>();
     protected static final String DEFAULT_SHEET_NAME = "Sheet1";
 
-    public void addColumn(String column, String columnName, Class<?> clazz, CellStyle cellStyle, String[] options) {
+    public void addColumnMapping(String column, String alias, String[] options) {
+        this.columnMapping.put(column, alias);
+        this.optionsMap.put(column, options);
+    }
+
+    public void addColumnMapping(String column, String alias) {
+        this.columnMapping.put(column, alias);
     }
 
     public void setColumnMapping(Map<String, String> columnMapping) {
