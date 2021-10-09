@@ -36,7 +36,7 @@ public class ReadTest {
     @Test
     public void read2() throws Exception {
         ExcelReader reader = ExcelHelper.getReader(new FileInputStream("测试数据BEAN.xlsx"), ExcelDTO.class);
-        reader.setSkipEmptyRow(true);
+        reader.skipEmptyRow(true);
         List<ExcelDTO> dtoList = reader.readLine(1, 2, ExcelDTO.class);
         System.out.println("");
     }
@@ -44,7 +44,7 @@ public class ReadTest {
     @Test
     public void read3() throws Exception {
         ExcelReader reader = ExcelHelper.getReader(new FileInputStream("测试数据BEAN.xlsx"), ExcelDTO.class);
-        reader.setSkipEmptyRow(true);
+        reader.skipEmptyRow(true);
         List<ExcelDTO> dtoList = reader.readLine(1, 2, s -> s.strip().replace("\r", "").replace("\n", ""), ExcelDTO.class);
         System.out.println("");
     }

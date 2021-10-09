@@ -96,7 +96,7 @@ public class WriteTest {
     @Test
     public void write3() throws Exception {
         ExcelWriter writer = ExcelHelper.getWriter(columnMapping, true);
-        writer.setSkipEmptyRow(true);
+        writer.skipEmptyRow(true);
         writer.setOptionsMap(optionsMap);
         CellStyleHolder cellStyleHolder = writer.getCellStyleHolder();
         XSSFCellStyle headCellStyle = (XSSFCellStyle) cellStyleHolder.getHeadCellStyle();

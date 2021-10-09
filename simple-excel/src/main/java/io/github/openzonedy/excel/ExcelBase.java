@@ -60,7 +60,7 @@ public abstract class ExcelBase {
         return skipEmptyRow;
     }
 
-    public void setSkipEmptyRow(boolean skipEmptyRow) {
+    public void skipEmptyRow(boolean skipEmptyRow) {
         this.skipEmptyRow = skipEmptyRow;
     }
 
